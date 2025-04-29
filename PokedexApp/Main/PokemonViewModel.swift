@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 // MARK: - ViewModel
+@MainActor
 class PokemonViewModel: ObservableObject {
     @Published var pokemons: [Pokemon] = []
 

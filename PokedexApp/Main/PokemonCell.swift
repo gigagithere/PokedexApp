@@ -10,6 +10,7 @@ import SwiftUI
 struct PokemonCell: View {
     let pokemon: Pokemon
     @State private var isLiked = false
+    
 
     var body: some View {
         VStack(spacing: 0) {
@@ -28,16 +29,12 @@ struct PokemonCell: View {
             
             ZStack {
                 Color.gray.opacity(0.1)
-                Button {
-                    isLiked.toggle()
-                } label: {
-                    Image(systemName: isLiked ? "heart.fill" : "heart")
-                }
+                HeartButton(isLiked: $isLiked)
             }
             .frame(height: 30)
-            .foregroundStyle(.brown)
+            .foregroundStyle(.red.opacity(0.8))
         }
-        .frame(width: 100, height: 150, alignment: .bottom)
+        .frame(height: 150, alignment: .bottom)
         .background(Color.gray.opacity(0.2))
         .cornerRadius(12)
     }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PokedexView: View {
     @StateObject private var viewModel = PokemonViewModel()
+    @State var isLiked = false
     
     let columns = [
         GridItem(.flexible()),
@@ -16,17 +17,21 @@ struct PokedexView: View {
         GridItem(.flexible())
     ]
     
-    @State private var isLiked = false
-    
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(viewModel.pokemons) { pokemon in
-                        PokemonCell(pokemon: pokemon)
+                        NavigationLink(
+                            destination: PokemonDetailView(pokemon: pokemon)
+                        ) {
+                            PokemonCell(pokemon: pokemon)
+                        }
                     }
                 }
+                
                 .padding()
+                .tint(.black)
             }
             .navigationTitle("Pokedex")
         }
@@ -35,7 +40,6 @@ struct PokedexView: View {
         }
     }
 }
-
 #Preview {
     PokedexView()
 }

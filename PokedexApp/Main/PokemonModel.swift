@@ -13,11 +13,11 @@ struct Pokemon: Identifiable, Decodable {
     let url: String
 
     var pokemonID: Int? {
-        guard let urlComponents = URL(string: url)?.pathComponents else { return nil }
-        if let idString = urlComponents.last(where: { !$0.isEmpty }), let id = Int(idString) {
-            return id
-        }
-        return nil
+        URL(string: url)?
+            .pathComponents
+            .filter { !$0.isEmpty }
+            .last
+            .flatMap(Int.init)
     }
 
     var imageUrl: URL? {
