@@ -10,8 +10,9 @@ import SwiftUI
 struct PokemonCell: View {
     let pokemon: Pokemon
     @State private var isLiked = false
+    @ObservedObject var viewModel: PokemonViewModel
     
-
+    
     var body: some View {
         VStack(spacing: 0) {
             if let imageUrl = pokemon.imageUrl {
@@ -29,7 +30,7 @@ struct PokemonCell: View {
             
             ZStack {
                 Color.gray.opacity(0.1)
-                HeartButton(isLiked: $isLiked)
+                HeartButton(pokemon: pokemon, viewModel: viewModel)
             }
             .frame(height: 30)
             .foregroundStyle(.red.opacity(0.8))
@@ -46,6 +47,6 @@ struct PokemonCell: View {
         pokemon: .init(
             name: "bulbasaur",
             url: "https://pokeapi.co/api/v2/pokemon/1/"
-        )
+        ), viewModel: PokemonViewModel()
     )
 }

@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct HeartButton: View {
-    @Binding var isLiked: Bool
+    let pokemon: Pokemon
     @State private var isAnimating = false
-
+    @ObservedObject var viewModel: PokemonViewModel
+    
     var body: some View {
         Button(action: {
-            isLiked.toggle()
+            viewModel.toggleFavorite(for: pokemon)
             animateHeart()
         }) {
-            Image(systemName: isLiked ? "heart.fill" : "heart")
+            Image(systemName: viewModel.isFavorite(pokemon) ? "heart.fill" : "heart")
                 .scaleEffect(isAnimating ? 1.3 : 1.0)
-                .foregroundColor(isLiked ? .red : .gray)
+                .foregroundColor(viewModel.isFavorite(pokemon) ? .red : .gray)
                 .font(.title2)
         }
     }
-
+    
     private func animateHeart() {
         withAnimation(.easeInOut(duration: 0.2)) {
             isAnimating = true
@@ -36,13 +37,8 @@ struct HeartButton: View {
 }
 
 #Preview {
-    PreviewWrapper()
-}
-
-private struct PreviewWrapper: View {
-    @State private var isLiked = false
-
-    var body: some View {
-        HeartButton(isLiked: $isLiked)
-    }
+    HeartButton(
+        pokemon: .init(name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/"),
+        viewModel: PokemonViewModel()
+    )
 }

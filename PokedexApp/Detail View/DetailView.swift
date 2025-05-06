@@ -12,17 +12,18 @@ struct PokemonDetailView: View {
     @State private var selectedSection: DetailSection = .info
     @State private var isLiked: Bool = false
     @State private var isAnimatingHeart = false
-
+    @ObservedObject var viewModel: PokemonViewModel
+    
     
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-            
+                
                 AsyncImage(url: pokemon.imageUrl) { image in
                     image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 200)                    
+                        .frame(width: 200, height: 200)
                 } placeholder: {
                     ProgressView()
                         .frame(width: 200, height: 200)
@@ -50,7 +51,7 @@ struct PokemonDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HeartButton(isLiked: $isLiked)
+                HeartButton(pokemon: pokemon, viewModel: viewModel)
             }
         }
     }
@@ -126,7 +127,7 @@ struct CardView<Content: View>: View {
             pokemon: .init(
                 name: "bulbasaur",
                 url: "https://pokeapi.co/api/v2/pokemon/1/"
-            )
+            ), viewModel: PokemonViewModel()
         )
     }
 }
